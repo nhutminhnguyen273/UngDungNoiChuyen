@@ -1,5 +1,11 @@
 package Client;
 
+import java.io.*;
+import java.net.*;
+import java.util.Enumeration;
+import java.util.Random;
+import javax.swing.JOptionPane;
+
 
 public class frmRegister extends javax.swing.JFrame {
 
@@ -100,13 +106,62 @@ public class frmRegister extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDangKyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangKyActionPerformed
+        try {
+            String id = java.util.UUID.randomUUID().toString();
+            String username = txtUsername.getText();
+            String password = txtPassword.getText();
+            String confirmPassword = txtConfirmPass.getText();
+            String ip = InetAddress.getLocalHost().getHostAddress();
+            Random random = new Random();
+            int port = 1000 + random.nextInt(9000);
 
+            if (!password.equals(confirmPassword)) {
+                JOptionPane.showMessageDialog(this, "Mật khẩu xác nhận không khớp!");
+                return;
+            }
+
+            try (Socket socket = new Socket("192.168.1.4", 12345);
+                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+
+                out.println("REGISTER;" + id + ";" + username + ";" + password + ";" + ip + ";" + port);
+                String response = in.readLine();
+                JOptionPane.showMessageDialog(this, response.equals("SUCCESS") ? "Đăng ký thành công!" : "Đăng ký thất bại!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage());
+        }
     }//GEN-LAST:event_btnDangKyActionPerformed
 
     private void btnThoatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThoatActionPerformed
-
+        dispose();
     }//GEN-LAST:event_btnThoatActionPerformed
 
+    String getVMnet8IPAddress() {
+        try {
+            // Lấy interface mạng VMnet8
+            NetworkInterface networkInterface = NetworkInterface.getByName("VMnet8");
+
+            if (networkInterface != null) {
+                // Lấy danh sách các địa chỉ IP gắn với interface này
+                Enumeration<InetAddress> inetAddresses = networkInterface.getInetAddresses();
+
+                // Duyệt qua các địa chỉ IP
+                while (inetAddresses.hasMoreElements()) {
+                    InetAddress inetAddress = inetAddresses.nextElement();
+                    if (inetAddress instanceof Inet4Address) { // Lấy IPv4
+                        return inetAddress.getHostAddress(); // Trả về địa chỉ IP
+                    }
+                }
+            } else {
+                System.out.println("Không tìm thấy interface VMnet8");
+            }
+        } catch (SocketException e) {
+            System.err.println("Lỗi khi lấy địa chỉ IP: " + e.getMessage());
+        }
+        return "Không lấy được IP";
+    }
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
