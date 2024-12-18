@@ -40,6 +40,11 @@ public class frmHome extends javax.swing.JFrame {
         mnChucNang.setText("Chức năng");
 
         miListUsers.setText("Danh sách người dùng");
+        miListUsers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miListUsersActionPerformed(evt);
+            }
+        });
         mnChucNang.add(miListUsers);
 
         miExit.setText("Thoát");
@@ -62,6 +67,11 @@ public class frmHome extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void miListUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miListUsersActionPerformed
+        frmClient frm = new frmClient();
+        frm.setVisible(true);
+    }//GEN-LAST:event_miListUsersActionPerformed
 
     /**
      * @param args the command line arguments

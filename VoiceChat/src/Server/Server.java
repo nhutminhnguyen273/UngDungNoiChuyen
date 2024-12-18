@@ -7,7 +7,7 @@ import java.util.List;
 public class Server {
     // Đăng ký User mới
     public boolean register(String username, String password, String ip, int port) {
-        String sql = "INSERT INTO User (Id, Username, Password, IP, Port) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO User (Username, Password, IP, Port) VALUES (?, ?, ?, ?)";
         try (Connection conn = MyConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, username);
