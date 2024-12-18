@@ -2,7 +2,6 @@ package Client;
 
 import java.io.*;
 import java.net.*;
-import java.util.Enumeration;
 import java.util.Random;
 import javax.swing.JOptionPane;
 
@@ -107,26 +106,46 @@ public class frmRegister extends javax.swing.JFrame {
 
     private void btnDangKyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangKyActionPerformed
         try {
-            String id = java.util.UUID.randomUUID().toString();
             String username = txtUsername.getText();
-            String password = txtPassword.getText();
-            String confirmPassword = txtConfirmPass.getText();
+            String password = new String(txtPassword.getPassword());
+            String confirmPassword = new String(txtConfirmPass.getPassword());
             String ip = InetAddress.getLocalHost().getHostAddress();
             Random random = new Random();
             int port = 1000 + random.nextInt(9000);
 
+            // Kiểm tra thông tin nhập liệu
+            if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin!");
+                return;
+            }
+            
             if (!password.equals(confirmPassword)) {
                 JOptionPane.showMessageDialog(this, "Mật khẩu xác nhận không khớp!");
                 return;
             }
+            
+            // Gửi thông tin đăng ký đến server
+            try (Socket socket = new Socket("192.168.1.4", 12345); // Địa chỉ và cổng server
+                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
-            try (Socket socket = new Socket("192.168.1.4", 12345);
-                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+                // Chuỗi yêu cầu dạng "REGISTER,username,password,ip,port"
+                String request = String.format("REGISTER,%s,%s,%s,%d", username, password, ip, port);
+                out.println(request); // Gửi yêu cầu
 
-                out.println("REGISTER;" + id + ";" + username + ";" + password + ";" + ip + ";" + port);
+                // Đọc phản hồi từ server
                 String response = in.readLine();
-                JOptionPane.showMessageDialog(this, response.equals("SUCCESS") ? "Đăng ký thành công!" : "Đăng ký thất bại!");
+                if ("REGISTER_SUCCESS".equals(response)) {
+                    JOptionPane.showMessageDialog(this, "Đăng ký thành công!");
+                    clearFields(); // Xóa các trường nhập liệu sau khi đăng ký thành công
+                } else if ("REGISTER_FAILED".equals(response)) {
+                    JOptionPane.showMessageDialog(this, "Đăng ký thất bại! Tên tài khoản đã tồn tại.");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Phản hồi không xác định từ server: " + response);
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Không thể kết nối đến server: " + ex.getMessage());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -138,29 +157,10 @@ public class frmRegister extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnThoatActionPerformed
 
-    String getVMnet8IPAddress() {
-        try {
-            // Lấy interface mạng VMnet8
-            NetworkInterface networkInterface = NetworkInterface.getByName("VMnet8");
-
-            if (networkInterface != null) {
-                // Lấy danh sách các địa chỉ IP gắn với interface này
-                Enumeration<InetAddress> inetAddresses = networkInterface.getInetAddresses();
-
-                // Duyệt qua các địa chỉ IP
-                while (inetAddresses.hasMoreElements()) {
-                    InetAddress inetAddress = inetAddresses.nextElement();
-                    if (inetAddress instanceof Inet4Address) { // Lấy IPv4
-                        return inetAddress.getHostAddress(); // Trả về địa chỉ IP
-                    }
-                }
-            } else {
-                System.out.println("Không tìm thấy interface VMnet8");
-            }
-        } catch (SocketException e) {
-            System.err.println("Lỗi khi lấy địa chỉ IP: " + e.getMessage());
-        }
-        return "Không lấy được IP";
+    private void clearFields() {
+        txtUsername.setText("");
+        txtPassword.setText("");
+        txtConfirmPass.setText("");
     }
 
     public static void main(String args[]) {

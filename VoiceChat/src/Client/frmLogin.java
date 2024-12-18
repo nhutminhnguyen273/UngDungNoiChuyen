@@ -1,5 +1,9 @@
 package Client;
 
+import java.io.*;
+import java.net.*;
+import java.util.Random;
+import javax.swing.JOptionPane;
 
 public class frmLogin extends javax.swing.JFrame {
 
@@ -90,7 +94,45 @@ public class frmLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
+        try {
+            String username = txtUsername.getText();
+            String password = new String(txtPassword.getPassword());
+            String ip = InetAddress.getLocalHost().getHostAddress();
 
+            // Kiểm tra thông tin nhập liệu
+            if (username.isEmpty() || password.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin!");
+                return;
+            }
+            
+            // Gửi thông tin đăng ký đến server
+            try (Socket socket = new Socket("192.168.1.4", 12345); // Địa chỉ và cổng server
+                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
+
+                // Chuỗi yêu cầu dạng "REGISTER,username,password,ip,port"
+                String request = String.format("LOGIN,%s,%s", username, password);
+                out.println(request); // Gửi yêu cầu
+
+                // Đọc phản hồi từ server
+                String response = in.readLine();
+                if ("LOGIN_SUCCESS".equals(response)) {
+                    JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
+                    frmHome frm = new frmHome();
+                    frm.setVisible(true);
+                } else if ("LOGIN_FAILED".equals(response)) {
+                    JOptionPane.showMessageDialog(this, "Đăng nhập thất bại");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Phản hồi không xác định từ server: " + response);
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Không thể kết nối đến server: " + ex.getMessage());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage());
+        }
     }//GEN-LAST:event_btnDangNhapActionPerformed
 
     private void btnDangKyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangKyActionPerformed
