@@ -1,5 +1,6 @@
 package Client;
 
+import static Client.frmLogin.port;
 import javax.swing.JOptionPane;
 
 
@@ -96,18 +97,10 @@ public class frmClient extends javax.swing.JFrame {
 
     private void btnKetNoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKetNoiActionPerformed
         String ip = txtIP.getText().trim();
-        String portSendText = txtPortSend.getText().trim();
         String portReceiveText = txtPortReceiver.getText().trim();
-        
-        // Kiểm tra nếu các trường nhập rỗng
-        if (ip.isEmpty() || portSendText.isEmpty() || portReceiveText.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ IP, Port Send và Port Receive.", 
-                                          "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
 
         try {
-            int portSend = Integer.parseInt(portSendText);
+            int portSend = port;
             int portReceive = Integer.parseInt(portReceiveText);
 
             // Kiểm tra giá trị hợp lệ của cổng

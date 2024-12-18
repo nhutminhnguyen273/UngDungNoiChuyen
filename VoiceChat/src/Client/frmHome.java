@@ -29,9 +29,7 @@ public class frmHome extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         mnChucNang = new javax.swing.JMenu();
-        miListFriends = new javax.swing.JMenuItem();
         miListUsers = new javax.swing.JMenuItem();
-        miNotification = new javax.swing.JMenuItem();
         miExit = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -41,14 +39,8 @@ public class frmHome extends javax.swing.JFrame {
 
         mnChucNang.setText("Chức năng");
 
-        miListFriends.setText("Danh sách bạn bè");
-        mnChucNang.add(miListFriends);
-
         miListUsers.setText("Danh sách người dùng");
         mnChucNang.add(miListUsers);
-
-        miNotification.setText("Thống báo");
-        mnChucNang.add(miNotification);
 
         miExit.setText("Thoát");
         mnChucNang.add(miExit);
@@ -110,9 +102,7 @@ public class frmHome extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem miExit;
-    private javax.swing.JMenuItem miListFriends;
     private javax.swing.JMenuItem miListUsers;
-    private javax.swing.JMenuItem miNotification;
     private javax.swing.JMenu mnChucNang;
     // End of variables declaration//GEN-END:variables
 }

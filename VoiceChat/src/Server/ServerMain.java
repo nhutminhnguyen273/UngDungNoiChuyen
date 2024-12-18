@@ -35,8 +35,12 @@ public class ServerMain {
                         out.println(registered ? "REGISTER_SUCCESS" : "REGISTER_FAILED");
                         break;
                     case "LOGIN":
-                        boolean loggedIn = server.login(parts[1], parts[2]);
-                        out.println(loggedIn ? "LOGIN_SUCCESS" : "LOGIN_FAILED");
+                        int port = server.login(parts[1], parts[2]);
+                        if (port != -1) {
+                            out.println("LOGIN_SUCCESS," + port); // Trả về thành công kèm port
+                        } else {
+                            out.println("LOGIN_FAILED");
+                        }
                         break;
                     case "UPDATE":
                         boolean updated = server.updateUser(Integer.parseInt(parts[1]), parts[2], Integer.parseInt(parts[3]));
@@ -45,6 +49,10 @@ public class ServerMain {
                     case "GET_USERS":
                         List<String> users = server.getAllUsers();
                         out.println(String.join(";", users));
+                        break;
+                    case "UPDATE_IP":
+                        boolean ipUpdated = server.updateIp(parts[1], parts[2]);
+                        out.println(ipUpdated ? "UPDATE_SUCCESS" : "UPDATE_FAILED");
                         break;
                     default:
                         out.println("INVALID_COMMAND");

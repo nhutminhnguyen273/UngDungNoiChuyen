@@ -22,19 +22,21 @@ public class Server {
     }
 
     // Đăng nhập User
-    public boolean login(String username, String password) {
-        String sql = "SELECT * FROM User WHERE Username = ? AND Password = ?";
+    public int login(String username, String password) {
+        String sql = "SELECT Port FROM user WHERE Username = ? AND Password = ?";
         try (Connection conn = MyConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, username);
             stmt.setString(2, password);
             try (ResultSet rs = stmt.executeQuery()) {
-                return rs.next(); // Đăng nhập thành công nếu có kết quả
+                if (rs.next()) {
+                    return rs.getInt("Port"); // Trả về Port của User
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+        return -1; // Trả về -1 nếu đăng nhập thất bại
     }
 
     // Cập nhật thông tin User
@@ -66,5 +68,19 @@ public class Server {
             e.printStackTrace();
         }
         return users;
+    }
+    
+    // Cập nhật địa chỉ IP cho User đã đăng nhập
+    public boolean updateIp(String username, String newIp) {
+        String sql = "UPDATE User SET IP = ? WHERE Username = ?";
+        try (Connection conn = MyConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, newIp);
+            stmt.setString(2, username);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

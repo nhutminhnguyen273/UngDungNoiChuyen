@@ -2,11 +2,12 @@ package Client;
 
 import java.io.*;
 import java.net.*;
-import java.util.Random;
 import javax.swing.JOptionPane;
 
 public class frmLogin extends javax.swing.JFrame {
 
+    public static String ipUser;
+    public static int port;
 
     public frmLogin() {
         initComponents();
@@ -116,10 +117,30 @@ public class frmLogin extends javax.swing.JFrame {
 
                 // Đọc phản hồi từ server
                 String response = in.readLine();
-                if ("LOGIN_SUCCESS".equals(response)) {
-                    JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
+                if (response.startsWith("LOGIN_SUCCESS")) {
+                    // Phân tách phản hồi để lấy port
+                    String[] responseParts = response.split(",");
+                    int userPort = Integer.parseInt(responseParts[1]); // Lấy port từ phản hồi
+
+                    JOptionPane.showMessageDialog(this, "Đăng nhập thành công! Port: " + userPort);
+
+                    // Đăng nhập thành công -> Cập nhật IP
+                    String updateIpRequest = String.format("UPDATE_IP,%s,%s", username, ip);
+                    out.println(updateIpRequest); // Gửi yêu cầu cập nhật IP
+                    String updateResponse = in.readLine();
+
+                    if ("UPDATE_SUCCESS".equals(updateResponse)) {
+                        JOptionPane.showMessageDialog(this, "Đăng nhập và cập nhật IP thành công!");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Đăng nhập thành công nhưng không thể cập nhật IP!");
+                    }
+
+                    // Truyền Port vào biến static (hoặc sử dụng cho mục đích khác)
+                    port = userPort;
+
                     frmHome frm = new frmHome();
                     frm.setVisible(true);
+                    this.dispose(); // Đóng cửa sổ hiện tại
                 } else if ("LOGIN_FAILED".equals(response)) {
                     JOptionPane.showMessageDialog(this, "Đăng nhập thất bại");
                 } else {
@@ -136,7 +157,8 @@ public class frmLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDangNhapActionPerformed
 
     private void btnDangKyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangKyActionPerformed
-
+        frmRegister frm = new frmRegister();
+        frm.setVisible(true);
     }//GEN-LAST:event_btnDangKyActionPerformed
 
     public static void main(String args[]) {

@@ -14,19 +14,9 @@
             <Property name="text" type="java.lang.String" value="Ch&#x1ee9;c n&#x103;ng"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="miListFriends">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Danh s&#xe1;ch b&#x1ea1;n b&#xe8;"/>
-              </Properties>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="miListUsers">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Danh s&#xe1;ch ng&#x1b0;&#x1edd;i d&#xf9;ng"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="miNotification">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Th&#x1ed1;ng b&#xe1;o"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="miExit">
