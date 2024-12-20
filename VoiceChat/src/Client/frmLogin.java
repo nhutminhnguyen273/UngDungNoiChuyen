@@ -81,7 +81,7 @@ private void initComponents() {
     JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
     headerPanel.setOpaque(false);
     
-    ImageIcon originalIcon2 = new ImageIcon("F:\\HOCTAPTHATCHAMCHITAONENTUONGLAITUOISANG\\Nam 4\\MON_HOC\\LTM\\BAOCAO_VOIP\\UngDungNoiChuyen\\image\\icon\\login_icon.png");
+    ImageIcon originalIcon2 = new ImageIcon("D:\\Learning\\Hutech\\Lap trinh mang may tinh\\Do an\\image\\icon\\login_icon.png");
 
     Image scaledImage = originalIcon2.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 
@@ -194,7 +194,7 @@ private void showError(String message) {
             }
             
             // Gửi thông tin đăng ký đến server
-            try (Socket socket = new Socket("192.168.0.105", 12345); // Địa chỉ và cổng server
+            try (Socket socket = new Socket("192.168.1.1", 12345); // Địa chỉ và cổng server
                  BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                  PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
