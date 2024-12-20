@@ -1,6 +1,15 @@
 package Client;
 
 import static Client.frmLogin.port;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,8 +17,13 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 
 
 public class frmClient extends javax.swing.JFrame {
@@ -23,9 +37,10 @@ public class frmClient extends javax.swing.JFrame {
 
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+   // In frmClient.java, replace the initComponents() method with:
 
+<<<<<<< HEAD
         btnKetNoi = new javax.swing.JButton();
         btnHuy = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -34,41 +49,75 @@ public class frmClient extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txtSearch = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
+=======
+private void initComponents() {
+    // Apply Modern UI
+    ModernUI.applyModernUI();
+>>>>>>> origin/tan
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+    // Initialize components
+    btnKetNoi = new ModernUI.ModernButton("Kết nối", true);
+    btnHuy = new ModernUI.ModernButton("Hủy kết nối", false);
+    listUsers = new ModernUI.ModernList();
+    txtThongBao = new JTextArea();
+    txtThongBao.setFont(ModernUI.REGULAR_FONT);
+    btnHienThi = new ModernUI.ModernButton("Hiển thị", false);
+    jLabel1 = new JLabel("VOICE CHAT", SwingConstants.CENTER);
+    jLabel1.setFont(ModernUI.TITLE_FONT);
+    jLabel1.setForeground(ModernUI.TEXT_COLOR);
+    txtSearch = new ModernUI.ModernTextField("Nhập tên người dùng để tìm kiếm...");
+    btnSearch = new ModernUI.ModernButton("Tìm kiếm", true);
 
-        btnKetNoi.setText("Kết nối");
-        btnKetNoi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnKetNoiActionPerformed(evt);
-            }
-        });
+    // Scroll panes
+    jScrollPane1 = new ModernUI.ModernScrollPane(listUsers);
+    jScrollPane2 = new ModernUI.ModernScrollPane(txtThongBao);
 
-        btnHuy.setText("Hủy kết nối");
-        btnHuy.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHuyActionPerformed(evt);
-            }
-        });
+    // Frame settings
+    setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+    getContentPane().setBackground(ModernUI.BACKGROUND_COLOR);
+    setLayout(new GridBagLayout());
+    GridBagConstraints gbc = new GridBagConstraints();
+    gbc.insets = new Insets(5, 5, 5, 5);
 
-        jScrollPane1.setViewportView(listUsers);
+    // Title label
+    gbc.gridx = 0;
+    gbc.gridy = 0;
+    gbc.gridwidth = 3;
+    gbc.anchor = GridBagConstraints.CENTER;
+    gbc.insets = new Insets(20, 5, 30, 5);
+    add(jLabel1, gbc);
 
+<<<<<<< HEAD
         btnHienThi.setText("Hiển thị");
         btnHienThi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHienThiActionPerformed(evt);
             }
         });
+=======
+    // Search panel
+    JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+    searchPanel.setBackground(ModernUI.BACKGROUND_COLOR);
+    txtSearch.setPreferredSize(new Dimension(300, 30));
+    searchPanel.add(txtSearch);
+    searchPanel.add(btnSearch);
 
-        jLabel1.setText("Nói chuyện");
+    gbc.gridy = 1;
+    add(searchPanel, gbc);
+>>>>>>> origin/tan
 
-        btnSearch.setText("Tìm kiếm");
-        btnSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchActionPerformed(evt);
-            }
-        });
+    // User list panel
+    JPanel usersPanel = new JPanel(new BorderLayout(10, 0));
+    usersPanel.setBackground(ModernUI.BACKGROUND_COLOR);
+    usersPanel.add(btnHienThi, BorderLayout.WEST);
 
+    JPanel listPanel = new JPanel(new BorderLayout(5, 5));
+    listPanel.setBackground(ModernUI.BACKGROUND_COLOR);
+    listPanel.add(new JLabel("Danh sách người dùng"), BorderLayout.NORTH);
+    listPanel.add(jScrollPane1, BorderLayout.CENTER);
+    usersPanel.add(listPanel, BorderLayout.CENTER);
+
+<<<<<<< HEAD
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -111,9 +160,59 @@ public class frmClient extends javax.swing.JFrame {
                     .addComponent(btnHuy))
                 .addGap(48, 48, 48))
         );
+=======
+    gbc.gridy = 2;
+    gbc.fill = GridBagConstraints.BOTH;
+    gbc.weightx = 1.0;
+    gbc.weighty = 1.0;
+    add(usersPanel, gbc);
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+    // Messages area
+    JPanel messagesPanel = new JPanel(new BorderLayout(5, 5));
+    messagesPanel.setBackground(ModernUI.BACKGROUND_COLOR);
+    messagesPanel.add(new JLabel("Thông báo"), BorderLayout.NORTH);
+    messagesPanel.add(jScrollPane2, BorderLayout.CENTER);
+
+    gbc.gridy = 3;
+    gbc.weighty = 0.5;
+    add(messagesPanel, gbc);
+
+    // Control buttons panel
+    JPanel controlPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+    controlPanel.setBackground(ModernUI.BACKGROUND_COLOR);
+    controlPanel.add(btnKetNoi);
+    controlPanel.add(btnHuy);
+
+    gbc.gridy = 4;
+    gbc.weighty = 0;
+    gbc.fill = GridBagConstraints.HORIZONTAL;
+    add(controlPanel, gbc);
+
+    // Add action listeners
+    btnKetNoi.addActionListener(evt -> btnKetNoiActionPerformed(evt));
+    btnHuy.addActionListener(evt -> btnHuyActionPerformed(evt));
+    btnHienThi.addActionListener(evt -> btnHienThiActionPerformed(evt));
+    btnSearch.addActionListener(evt -> btnSearchActionPerformed(evt));
+
+    // Button initial states
+    btnHuy.setEnabled(false);
+
+    // Window settings
+    setMinimumSize(new Dimension(600, 700));
+    setLocationRelativeTo(null);
+    pack();
+
+    // Add window listener for cleanup
+    addWindowListener(new WindowAdapter() {
+        @Override
+        public void windowClosing(WindowEvent e) {
+            if (sender != null) sender.stopSending();
+            if (receiver != null) receiver.stopReceiving();
+        }
+    });
+}
+>>>>>>> origin/tan
+
 
     private void btnKetNoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKetNoiActionPerformed
         startConnection();
@@ -158,7 +257,7 @@ public class frmClient extends javax.swing.JFrame {
     
     private List<String> fetchUsersFromServer() {
         List<String> users = new ArrayList<>();
-        try (Socket socket = new Socket("192.168.1.1", 12345);
+        try (Socket socket = new Socket("192.168.0.105", 12345);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
@@ -180,7 +279,7 @@ public class frmClient extends javax.swing.JFrame {
     
     private String fetchUserByName(String username) {
         String userInfo = null;
-        try (Socket socket = new Socket("192.168.1.1", 12345);
+        try (Socket socket = new Socket("192.168.0.105", 12345);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 

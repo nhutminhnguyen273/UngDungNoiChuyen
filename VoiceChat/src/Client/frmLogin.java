@@ -1,8 +1,27 @@
 package Client;
 
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.*;
 import java.net.*;
+import javax.swing.Box;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 public class frmLogin extends javax.swing.JFrame {
 
@@ -16,84 +35,151 @@ public class frmLogin extends javax.swing.JFrame {
 
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+// In frmLogin.java, replace the initComponents() method with:
 
-        txtUsername = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        btnDangNhap = new javax.swing.JButton();
-        btnDangKy = new javax.swing.JButton();
-        lbDangNhap = new javax.swing.JLabel();
-        txtPassword = new javax.swing.JPasswordField();
+private void initComponents() {
+    // Apply modern UI
+    ModernUI.applyModernUI();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+    // Initialize components with modern style
+    txtUsername = ModernUI.createTextField("Nhập tên đăng nhập");
+    txtPassword = ModernUI.createPasswordField();
+    jLabel1 = ModernUI.createLabel("Username");
+    jLabel2 = ModernUI.createLabel("Mật khẩu");
+    btnDangNhap = ModernUI.createPrimaryButton("Đăng nhập");
+    btnDangKy = ModernUI.createSecondaryButton("Đăng ký");
+    lbDangNhap = new JLabel("ĐĂNG NHẬP");
+    lbDangNhap.setFont(ModernUI.TITLE_FONT);
+    lbDangNhap.setForeground(ModernUI.PRIMARY_DARK);
 
-        jLabel1.setText("Username");
+    // Create main panel with shadow border
+    JPanel mainPanel = new JPanel() {
+        @Override
+        protected void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+             // Paint white background with rounded corners
+            g2.setColor(Color.WHITE);
+            g2.fillRoundRect(5, 5, getWidth()-10, getHeight()-10, 20, 20);
 
-        jLabel2.setText("Mật khẩu");
-
-        btnDangNhap.setText("Đăng nhập");
-        btnDangNhap.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDangNhapActionPerformed(evt);
+            // Paint shadow
+            int shadowSize = 5;
+            for (int i = 0; i < shadowSize; i++) {
+                g2.setColor(new Color(0, 0, 0, 20 - i));
+                g2.drawRoundRect(i, i, getWidth()-2*i, getHeight()-2*i, 20, 20);
             }
-        });
 
-        btnDangKy.setText("Đăng ký");
-        btnDangKy.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDangKyActionPerformed(evt);
-            }
-        });
+            g2.dispose();
+        }
+    };
+    mainPanel.setOpaque(false);
+    mainPanel.setLayout(new GridBagLayout());
+    GridBagConstraints gbc = new GridBagConstraints();
+    gbc.insets = new Insets(10, 30, 10, 30);
 
-        lbDangNhap.setText("Đăng Nhập");
+    // Add login header with icon
+    JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    headerPanel.setOpaque(false);
+    
+    ImageIcon originalIcon2 = new ImageIcon("F:\\HOCTAPTHATCHAMCHITAONENTUONGLAITUOISANG\\Nam 4\\MON_HOC\\LTM\\BAOCAO_VOIP\\UngDungNoiChuyen\\image\\icon\\login_icon.png");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(67, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnDangNhap)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-                        .addComponent(btnDangKy))
-                    .addComponent(txtUsername)
-                    .addComponent(txtPassword))
-                .addGap(113, 113, 113))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(200, 200, 200)
-                .addComponent(lbDangNhap)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(lbDangNhap)
-                .addGap(55, 55, 55)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnDangNhap)
-                    .addComponent(btnDangKy))
-                .addContainerGap(95, Short.MAX_VALUE))
-        );
+    Image scaledImage = originalIcon2.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+    ImageIcon userIcon = new ImageIcon(scaledImage);    JLabel iconLabel = new JLabel();
+    
+    
+    iconLabel.setIcon(userIcon);
+    headerPanel.add(iconLabel);
+    headerPanel.add(Box.createHorizontalStrut(15));
+    headerPanel.add(lbDangNhap);
+
+    gbc.gridx = 0;
+    gbc.gridy = 0;
+    gbc.gridwidth = 2;
+    gbc.anchor = GridBagConstraints.CENTER;
+    gbc.insets = new Insets(30, 30, 30, 30);
+    mainPanel.add(headerPanel, gbc);
+
+    // Add components with proper spacing
+    gbc.insets = new Insets(5, 30, 5, 30);
+    gbc.anchor = GridBagConstraints.WEST;
+    gbc.gridwidth = 1;
+
+    // Username section
+    gbc.gridy = 1;
+    mainPanel.add(jLabel1, gbc);
+    gbc.gridy = 2;
+    gbc.fill = GridBagConstraints.HORIZONTAL;
+    mainPanel.add(txtUsername, gbc);
+
+    // Password section
+    gbc.gridy = 3;
+    gbc.fill = GridBagConstraints.NONE;
+    mainPanel.add(jLabel2, gbc);
+    gbc.gridy = 4;
+    gbc.fill = GridBagConstraints.HORIZONTAL;
+    mainPanel.add(txtPassword, gbc);
+
+    // Buttons panel
+    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
+    buttonPanel.setOpaque(false);
+    buttonPanel.add(btnDangNhap);
+    buttonPanel.add(btnDangKy);
+
+    gbc.gridy = 5;
+    gbc.insets = new Insets(30, 30, 20, 30);
+    mainPanel.add(buttonPanel, gbc);
+
+    // Add event handlers
+    btnDangNhap.addActionListener(evt -> btnDangNhapActionPerformed(evt));
+    btnDangKy.addActionListener(evt -> btnDangKyActionPerformed(evt));
+
+    // Setup main frame
+    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    getContentPane().setBackground(ModernUI.BACKGROUND_COLOR);
+    setLayout(new GridBagLayout());
+    
+    // Add main panel to frame with padding
+    GridBagConstraints frameGbc = new GridBagConstraints();
+    frameGbc.insets = new Insets(20, 20, 20, 20);
+    add(mainPanel, frameGbc);
+
+    // Additional frame settings
+    setMinimumSize(new Dimension(400, 500));
+    setLocationRelativeTo(null);
+    pack();
+
+    // Add hover effect to buttons
+    addButtonHoverEffect(btnDangNhap);
+    addButtonHoverEffect(btnDangKy);
+}
+
+private void addButtonHoverEffect(JButton button) {
+    button.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            button.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        }
+    });
+}
+
+   // Add animation effect for error messages
+private void showError(String message) {
+    JPanel errorPanel = new JPanel();
+    errorPanel.setBackground(new Color(255, 82, 82));
+    JLabel errorLabel = new JLabel(message);
+    errorLabel.setForeground(Color.WHITE);
+    errorLabel.setFont(ModernUI.REGULAR_FONT);
+    errorPanel.add(errorLabel);
+    
+    // Add to frame with animation
+    // ... (animation code here)
+}
 
     private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
         try {
@@ -108,7 +194,7 @@ public class frmLogin extends javax.swing.JFrame {
             }
             
             // Gửi thông tin đăng ký đến server
-            try (Socket socket = new Socket("192.168.1.1", 12345); // Địa chỉ và cổng server
+            try (Socket socket = new Socket("192.168.0.105", 12345); // Địa chỉ và cổng server
                  BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                  PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
