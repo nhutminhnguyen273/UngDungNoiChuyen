@@ -3,8 +3,11 @@ package Server;
 import java.io.*;
 import java.net.*;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ServerMain {
+    
+    private static final List<Socket> connectedClients = new CopyOnWriteArrayList<>();
     
     public static void main(String[] args) {
         Server server = new Server();
@@ -23,6 +26,7 @@ public class ServerMain {
     }
 
     private static void handleClient(Socket socket, Server server) {
+        connectedClients.add(socket); // Thêm client vào danh sách
         try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
             String command;
@@ -73,5 +77,15 @@ public class ServerMain {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    } 
+    }
+    
+    private static void broadcastMessage(String message) {
+        for (Socket client : connectedClients) {
+            try (PrintWriter out = new PrintWriter(client.getOutputStream(), true)) {
+                out.println(message); // Gửi tin nhắn đến client
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

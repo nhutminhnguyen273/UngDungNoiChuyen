@@ -125,7 +125,7 @@ public class frmRegister extends javax.swing.JFrame {
             }
             
             // Gửi thông tin đăng ký đến server
-            try (Socket socket = new Socket("192.168.52.223", 12345); // Địa chỉ và cổng server
+            try (Socket socket = new Socket("192.168.1.1", 12345); // Địa chỉ và cổng server
                  BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                  PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
