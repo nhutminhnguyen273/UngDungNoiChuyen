@@ -13,7 +13,7 @@ public class VoiceSender extends Thread {
         this.port = port;
     }
     
-        @Override
+    @Override
     public void run() {
         try (DatagramSocket socket = new DatagramSocket()) {
             AudioFormat format = new AudioFormat(44100, 16, 1, true, false);

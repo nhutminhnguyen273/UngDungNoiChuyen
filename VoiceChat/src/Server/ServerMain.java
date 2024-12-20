@@ -50,6 +50,18 @@ public class ServerMain {
                         List<String> users = server.getAllUsers();
                         out.println(String.join(";", users));
                         break;
+                    case "GET_USER":
+                        if (parts.length > 1) {
+                            String userInfo = server.getUserByUsername(parts[1]);
+                            if (userInfo != null) {
+                                out.println("USER_INFO," + userInfo);
+                            } else {
+                                out.println("USER_NOT_FOUND");
+                            }
+                        } else {
+                            out.println("INVALID_COMMAND");
+                        }
+                        break;
                     case "UPDATE_IP":
                         boolean ipUpdated = server.updateIp(parts[1], parts[2]);
                         out.println(ipUpdated ? "UPDATE_SUCCESS" : "UPDATE_FAILED");

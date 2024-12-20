@@ -70,6 +70,23 @@ public class Server {
         return users;
     }
     
+    // Lấy thông tin User theo Username
+    public String getUserByUsername(String username) {
+        String sql = "SELECT * FROM User WHERE Username = ?";
+        try (Connection conn = MyConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("Username") + " - " + rs.getString("IP") + ":" + rs.getInt("Port");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Trả về null nếu không tìm thấy
+    }
+
     // Cập nhật địa chỉ IP cho User đã đăng nhập
     public boolean updateIp(String username, String newIp) {
         String sql = "UPDATE User SET IP = ? WHERE Username = ?";
