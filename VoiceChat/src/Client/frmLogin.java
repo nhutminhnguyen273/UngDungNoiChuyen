@@ -8,6 +8,7 @@ public class frmLogin extends javax.swing.JFrame {
 
     public static String ipUser;
     public static int port;
+    public static String USERNAME;
 
     public frmLogin() {
         initComponents();
@@ -107,7 +108,7 @@ public class frmLogin extends javax.swing.JFrame {
             }
             
             // Gửi thông tin đăng ký đến server
-            try (Socket socket = new Socket("192.168.1.4", 12345); // Địa chỉ và cổng server
+            try (Socket socket = new Socket("192.168.1.1", 12345); // Địa chỉ và cổng server
                  BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                  PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
@@ -137,8 +138,8 @@ public class frmLogin extends javax.swing.JFrame {
 
                     // Truyền Port vào biến static (hoặc sử dụng cho mục đích khác)
                     port = userPort;
-
-                    frmHome frm = new frmHome();
+                    USERNAME = username;
+                    frmClient frm = new frmClient();
                     frm.setVisible(true);
                     this.dispose(); // Đóng cửa sổ hiện tại
                 } else if ("LOGIN_FAILED".equals(response)) {

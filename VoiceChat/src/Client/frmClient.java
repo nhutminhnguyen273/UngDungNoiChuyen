@@ -31,7 +31,7 @@ public class frmClient extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         listUsers = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        btnThongBao = new javax.swing.JTextArea();
+        txtThongBao = new javax.swing.JTextArea();
         btnHienThi = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
@@ -53,9 +53,9 @@ public class frmClient extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(listUsers);
 
-        btnThongBao.setColumns(20);
-        btnThongBao.setRows(5);
-        jScrollPane2.setViewportView(btnThongBao);
+        txtThongBao.setColumns(20);
+        txtThongBao.setRows(5);
+        jScrollPane2.setViewportView(txtThongBao);
 
         btnHienThi.setText("Hiển thị");
         btnHienThi.addActionListener(new java.awt.event.ActionListener() {
@@ -143,7 +143,7 @@ public class frmClient extends javax.swing.JFrame {
 
     private List<String> fetchUsersFromServer() {
         List<String> users = new ArrayList<>();
-        try (Socket socket = new Socket("192.168.1.4", 12345);
+        try (Socket socket = new Socket("192.168.1.1", 12345);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
@@ -163,42 +163,6 @@ public class frmClient extends javax.swing.JFrame {
         return users;
     }
     
-//    private void listUsersValueChanged(javax.swing.event.ListSelectionEvent evt) {
-//        // Kiểm tra xem có chọn mục nào không
-//        if (!evt.getValueIsAdjusting()) {
-//            String selectedUser = listUsers.getSelectedValue();
-//            if (selectedUser != null && !selectedUser.isEmpty()) {
-//                // Dữ liệu hiển thị dạng Username - IP:Port
-//                String[] parts = selectedUser.split(" - ");
-//                if (parts.length == 2) {
-//                    String[] ipAndPort = parts[1].split(":");
-//                    if (ipAndPort.length == 2) {
-//                        String ip = ipAndPort[0];
-//                        String portReceiveText = ipAndPort[1];
-//
-//                        try {
-//                            int portReceive = Integer.parseInt(portReceiveText);
-//
-//                            // Lưu giá trị IP và PortReceive vào biến toàn cục (nếu cần)
-//                            JOptionPane.showMessageDialog(this, 
-//                                "Selected IP: " + ip + ", Port: " + portReceive, 
-//                                "Thông báo", 
-//                                JOptionPane.INFORMATION_MESSAGE);
-//
-//                            // Có thể kích hoạt kết nối ngay tại đây
-//                            startConnection();
-//                        } catch (NumberFormatException e) {
-//                            JOptionPane.showMessageDialog(this, 
-//                                "Port không hợp lệ.", 
-//                                "Lỗi", 
-//                                JOptionPane.ERROR_MESSAGE);
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-    
     private void startConnection() {
         // Kiểm tra nếu người dùng đã chọn một mục trong danh sách
         String selectedUser = listUsers.getSelectedValue();
@@ -214,7 +178,7 @@ public class frmClient extends javax.swing.JFrame {
                         int portReceive = Integer.parseInt(portReceiveText);
 
                         // Kiểm tra giá trị hợp lệ của cổng
-                        int portSend = port; // Bạn có thể lấy port từ nơi khác nếu cần
+                        int portSend = port;
 
                         if (portSend <= 0 || portSend > 65535 || portReceive <= 0 || portReceive > 65535) {
                             JOptionPane.showMessageDialog(this, "Port phải nằm trong khoảng từ 1 đến 65535.", 
@@ -256,10 +220,10 @@ public class frmClient extends javax.swing.JFrame {
     private javax.swing.JButton btnHienThi;
     private javax.swing.JButton btnHuy;
     private javax.swing.JButton btnKetNoi;
-    private javax.swing.JTextArea btnThongBao;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JList<String> listUsers;
+    private javax.swing.JTextArea txtThongBao;
     // End of variables declaration//GEN-END:variables
 }
